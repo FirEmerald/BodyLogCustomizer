@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using BodyLogCustomizer.Utilities;
+using LabFusion.Data;
 using LabFusion.Representation;
 using MelonLoader;
 using SLZ.Props;
@@ -13,7 +14,7 @@ namespace BodyLogCustomizer.Data;
 
 public static class FusionUserCacheManager
 {
-    private static Dictionary<string, FusionUserBodyLogColorData> cache;
+    private static FusionDictionary<string, FusionUserBodyLogColorData> cache;
     private static string cacheFilePath = "UserData/BodyLogCustomizer/FusionUserCache.json";
 
     static FusionUserCacheManager()
@@ -26,11 +27,11 @@ public static class FusionUserCacheManager
         if (File.Exists(cacheFilePath))
         {
             var json = File.ReadAllText(cacheFilePath);
-            cache = JsonConvert.DeserializeObject<Dictionary<string, FusionUserBodyLogColorData>>(json);
+            cache = JsonConvert.DeserializeObject<FusionDictionary<string, FusionUserBodyLogColorData>>(json);
         }
         else
         {
-                cache = new Dictionary<string, FusionUserBodyLogColorData>();
+                cache = new FusionDictionary<string, FusionUserBodyLogColorData>();
         }
     }
 
