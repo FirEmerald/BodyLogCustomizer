@@ -1,0 +1,9 @@
+{
+    "name": "BodyLog_Customizer",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/BuggedBoard/BodyLogCustomizer/tree/main",
+    "description": "Customize your bodylog's colors to your liking!",
+    "dependencies": [
+        "gnonme-BoneLib-2.4.0"
+    ]
+}
