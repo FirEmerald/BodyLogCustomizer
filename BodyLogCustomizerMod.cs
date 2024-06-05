@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Timers;
 using BoneLib.BoneMenu.Elements;
 using BoneLib.BoneMenu;
 using BodyLogCustomizer.Data;
@@ -21,7 +22,7 @@ namespace BodyLogCustomizer
         public const string Name = "BodyLogCustomizer"; // Name of the Mod.  (MUST BE SET)
         public const string Author = "BuggedChecker"; // Author of the Mod.  (Set as null if none)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "1.0.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "1.1.0"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
     }
 
@@ -52,6 +53,7 @@ namespace BodyLogCustomizer
 
             // Data
             LogPrefInitializer.Initialize();
+            FusionUserCacheManager.LoadCache();
 
             // UI
             BoneMenuCreator.CreateMenu();
@@ -70,12 +72,18 @@ namespace BodyLogCustomizer
         }
         private void OnPlayerRepCreated(RigManager rm)
         {
-            var playerRep = PlayerRepManager.TryGetPlayerRep(rm, out var rep);
+            var timer = new Timer(1000);
+            timer.AutoReset = false;
+            timer.Start();
+            timer.Elapsed += (sender, args) =>
+            {
+                var playerRep = PlayerRepManager.TryGetPlayerRep(rm, out var rep);
             
-            FusionUserCacheManager.LoadCache();
-            FusionUserCacheManager.ApplyCacheToDevice(rep.pullCord);
+                FusionUserCacheManager.LoadCache();
+                FusionUserCacheManager.ApplyCacheToDevice(rep.pullCord);
             
-            FusionModule.Instance.SendBodyLogColorData(LogPrefInitializer.bodyLogColorData);
+                FusionModule.Instance.SendBodyLogColorData(LogPrefInitializer.bodyLogColorData);
+            };
         }
     }
 }

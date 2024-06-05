@@ -9,14 +9,14 @@ Customize your BodyLog's colors to your liking!
 	- BodyLog settings from other players will be cached - if you've been in a server with someone and their BodyLog was synced, it will be cached and applied when you're in a server where the host doesn't have the mod. 
 
 ## How to use:
-Copy the hex color you'd like to use, then press the button that you want to color with. It should change the button's color to the color you copied - if not, you'd have to make sure what you copied is right. Any spaces or line breaks will cause it to fail.
+Set a color in the color selector, then press on the BodyLog element you want to color. You can also copy a hex color value to your clipboard for pasting it into the color selector with the paste button.
 
-The mod will also take in the following, built in colors:
+The mod will also take in the following built in colors from your clipboard:
 - red, cyan, blue, darkblue, lightblue, purple, yellow, lime, fuchsia, white, silver, grey, black, orange, brown, maroon, green, olive, navy, teal, aqua, magenta.
 
-If you want to share your settings with others or modify your settings directly outside of bonelab, the save file can be found at `UserData/BodyLogCustomizer/LocalBodyLogPref.json`
+If you want to share your settings with others or modify your settings directly outside bonelab, the save file can be found at `UserData/BodyLogCustomizer/LocalBodyLogPref.json`
 
-Every time the mod is updated it will backup your old save and create a new one, that is because new parameters can be introduced and it can mess with the mod.
+Every time the mod is updated it will back up your old save and create a new one, that is because new parameters can be introduced and it can mess with the mod.
 
 ## Advanced Preferences
 The MelonPreferences file is located at `UserData/BodyLogCustomizer.cfg`.
@@ -26,5 +26,8 @@ In that file, you can see the parameters "`ReplicateOnServer`" and "`ReplicateOn
 If `ReplicateOnServer` is `True` and `ReplicateOnClient` is `False`, other players will see your colored BodyLog but you won't see it on your end.
 
 ## Changelog
+### 1.1.0:
+- Changed Fusion cache system to use individual files for each player.
+- Android support added to Fusion cache system.
 #### 1.0.0:
 - Initial Release

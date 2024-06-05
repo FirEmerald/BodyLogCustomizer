@@ -100,7 +100,7 @@ namespace BodyLogCustomizer.UI
             });
             if (!HelperMethods.IsAndroid())
             {
-                var clipboardElement = colorSelectorSubCategory.CreateFunctionElement("Paste from Clipboard", Color.magenta, () =>
+                var clipboardElement = colorSelectorSubCategory.CreateFunctionElement("Paste from Clipboard", Color.white, () =>
                 {
                     var clipboardText = Clipboard.GetText();
                     var result = ColorUtility.TryParseHtmlString(clipboardText, out Color color);
@@ -116,19 +116,19 @@ namespace BodyLogCustomizer.UI
             baseSkinElement.SetValue(LogPrefInitializer.bodyLogColorData.baseSkinType);
 
             previewMeshCategory = mainCategory.CreateCategory("Preview Mesh", Color.cyan);
-            hologramEdgeColorElement = previewMeshCategory.CreateFunctionElement("Set Hologram Edge Color (CB)", LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEdgeColor, () =>
+            hologramEdgeColorElement = previewMeshCategory.CreateFunctionElement("Set Hologram Edge Color", LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEdgeColor, () =>
             {
                 var x = MenuColorButton(hologramEdgeColorElement); 
                 LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEdgeColor = x;
             });
-            hologramEmissionColorElement = previewMeshCategory.CreateFunctionElement("Set Hologram Emission Color (CB)", LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEmissionColor, () =>
+            hologramEmissionColorElement = previewMeshCategory.CreateFunctionElement("Set Hologram Emission Color", LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEmissionColor, () =>
             {
                 var x = MenuColorButton(hologramEmissionColorElement); 
                 LogPrefInitializer.bodyLogColorData.previewMeshColor.hologramEmissionColor = x;
             });
             
             dialColorCategory = mainCategory.CreateCategory("Dial Color", Color.cyan);
-            dialEmissionBaseElement = dialColorCategory.CreateFunctionElement("Set Emission Base (CB)", LogPrefInitializer.bodyLogColorData.dialColor[0].emissionBase, () => 
+            dialEmissionBaseElement = dialColorCategory.CreateFunctionElement("Set Emission Base", LogPrefInitializer.bodyLogColorData.dialColor[0].emissionBase, () => 
             { 
                 var x = MenuColorButton(dialEmissionBaseElement);
                 for (int i = 0; i < LogPrefInitializer.bodyLogColorData.dialColor.Length; i++)
@@ -137,7 +137,7 @@ namespace BodyLogCustomizer.UI
                 }
 
             });
-            dialEmissionColorElement = dialColorCategory.CreateFunctionElement("Set Emission Color (CB)", LogPrefInitializer.bodyLogColorData.dialColor[0].emissionColor, () =>
+            dialEmissionColorElement = dialColorCategory.CreateFunctionElement("Set Emission Color", LogPrefInitializer.bodyLogColorData.dialColor[0].emissionColor, () =>
             {
                 var x = MenuColorButton(dialEmissionColorElement);
                 for (int i = 0; i < LogPrefInitializer.bodyLogColorData.dialColor.Length; i++)
@@ -147,40 +147,40 @@ namespace BodyLogCustomizer.UI
             });
             
             gizmoBallCategory = mainCategory.CreateCategory("Gizmo Ball", Color.cyan);
-            gizmoBallColorElement = gizmoBallCategory.CreateFunctionElement("Set Gizmo Ball Color (CB)", LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallColor, () =>
+            gizmoBallColorElement = gizmoBallCategory.CreateFunctionElement("Set Gizmo Ball Color", LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallColor, () =>
             {
                 var x = MenuColorButton(gizmoBallColorElement); 
                 LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallColor = x;
             });
-            gizmoBallEmissionElement = gizmoBallCategory.CreateFunctionElement("Set Gizmo Ball Emission (CB)", LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallEmission, () =>
+            gizmoBallEmissionElement = gizmoBallCategory.CreateFunctionElement("Set Gizmo Ball Emission", LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallEmission, () =>
             { 
                 var x = MenuColorButton(gizmoBallEmissionElement); 
                 LogPrefInitializer.bodyLogColorData.gizmoBallColor.gizmoBallEmission = x;
             });
             
-            baseLogColorElement = mainCategory.CreateFunctionElement("Set Base Log Color (CB)", LogPrefInitializer.bodyLogColorData.baseLogColor, () =>
+            baseLogColorElement = mainCategory.CreateFunctionElement("Set Base Log Color", LogPrefInitializer.bodyLogColorData.baseLogColor, () =>
             {
                 var x = MenuColorButton(baseLogColorElement); 
                 LogPrefInitializer.bodyLogColorData.baseLogColor = x;
             });
-            ringColorElement = mainCategory.CreateFunctionElement("Set Ring Color (CB)", LogPrefInitializer.bodyLogColorData.ringColor, () =>
+            ringColorElement = mainCategory.CreateFunctionElement("Set Ring Color", LogPrefInitializer.bodyLogColorData.ringColor, () =>
             {
                 var x = MenuColorButton(ringColorElement); 
                 LogPrefInitializer.bodyLogColorData.ringColor = x;
             });
-            coreParticleColorElement = mainCategory.CreateFunctionElement("Set Core Particle Color (CB)", LogPrefInitializer.bodyLogColorData.coreParticleColor, () =>
+            coreParticleColorElement = mainCategory.CreateFunctionElement("Set Core Particle Color", LogPrefInitializer.bodyLogColorData.coreParticleColor, () =>
             {
                 var x = MenuColorButton(coreParticleColorElement); 
                 LogPrefInitializer.bodyLogColorData.coreParticleColor = x;
             });
 
 
-            lineColorElement = mainCategory.CreateFunctionElement("Set Line Color (CB)", LogPrefInitializer.bodyLogColorData.lineColor, () => 
+            lineColorElement = mainCategory.CreateFunctionElement("Set Line Color", LogPrefInitializer.bodyLogColorData.lineColor, () => 
             {
                 var x = MenuColorButton(lineColorElement); 
                 LogPrefInitializer.bodyLogColorData.lineColor = x;
             });
-            tickColorElement = mainCategory.CreateFunctionElement("Set Tick Color (CB)", LogPrefInitializer.bodyLogColorData.tickColor[0], () =>
+            tickColorElement = mainCategory.CreateFunctionElement("Set Tick Color", LogPrefInitializer.bodyLogColorData.tickColor[0], () =>
             {
                 var x = MenuColorButton(tickColorElement);
                 for (int i = 0; i < LogPrefInitializer.bodyLogColorData.tickColor.Length; i++)

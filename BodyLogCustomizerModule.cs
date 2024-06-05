@@ -11,7 +11,7 @@ namespace BodyLogCustomizer;
 public static class ModuleInfo
 {
     public const string Name = "BodyLogCustomizer"; 
-    public const string Version = "1.0.0"; 
+    public const string Version = "1.1.0"; 
     public const string Author = "BuggedChecker"; 
     public const string Abbreviation = null; 
     public const bool AutoRegister = true; 

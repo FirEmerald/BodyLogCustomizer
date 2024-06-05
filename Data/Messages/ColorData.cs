@@ -148,17 +148,16 @@ namespace BodyLogCustomizer.Data.Messages
                     {
                         if (playerRep.PlayerId.SmallId == data.PlayerId)
                         {
-                            var device = playerRep.pullCord;
-                            
                             // Bullshit solution but it works
                             var timer = new Timer(1000);
                             timer.AutoReset = false;
+                            timer.Start();
                             timer.Elapsed += (sender, args) =>
                             {
+                                var device = playerRep.pullCord;
                                 device.ApplyColorsFromData(bodyLogColorData);
+                                FusionUserCacheManager.AddOrUpdate(playerRep.PlayerId.LongId.ToString(), bodyLogColorData);
                             };
-
-                            FusionUserCacheManager.AddOrUpdate(playerRep.PlayerId.LongId.ToString(), bodyLogColorData);
                         }
                     }
                 }

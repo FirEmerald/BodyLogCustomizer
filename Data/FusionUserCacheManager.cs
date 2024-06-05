@@ -1,62 +1,35 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
+using System.Reflection;
+using BodyLogCustomizer.Data;
 using BodyLogCustomizer.Utilities;
-using LabFusion.Data;
 using LabFusion.Representation;
 using MelonLoader;
+using Newtonsoft.Json;
 using SLZ.Props;
-using UnityEngine;
-
-namespace BodyLogCustomizer.Data;
 
 public static class FusionUserCacheManager
 {
-    private static FusionDictionary<string, FusionUserBodyLogColorData> cache;
-    private static string cacheFilePath = "UserData/BodyLogCustomizer/FusionUserCache.json";
-
-    static FusionUserCacheManager()
-    {
-        LoadCache();
-    }
-
-    public static void LoadCache()
-    {
-        if (File.Exists(cacheFilePath))
-        {
-            var json = File.ReadAllText(cacheFilePath);
-            cache = JsonConvert.DeserializeObject<FusionDictionary<string, FusionUserBodyLogColorData>>(json);
-        }
-        else
-        {
-                cache = new FusionDictionary<string, FusionUserBodyLogColorData>();
-        }
-    }
+    private static string cacheDirectoryPath = "UserData/BodyLogCustomizer/FusionUserCache/";
 
     public static void AddOrUpdate(string steamId, BodyLogColorData bodyLogColorData)
     {
         var userBodyLogColorData = new FusionUserBodyLogColorData(steamId, bodyLogColorData);
-        cache[steamId] = userBodyLogColorData;
-        SaveCache();
+        var json = JsonConvert.SerializeObject(userBodyLogColorData, Formatting.Indented);
+        File.WriteAllText(Path.Combine(cacheDirectoryPath, steamId + ".json"), json);
     }
 
-    private static void SaveCache()
-    {
-        var json = JsonConvert.SerializeObject(cache, Formatting.Indented);
-        File.WriteAllText(cacheFilePath, json);
-    }
-        
     public static BodyLogColorData GetBodyLogColorData(string steamId)
     {
-        if (cache.ContainsKey(steamId))
+        var filePath = Path.Combine(cacheDirectoryPath, steamId + ".json");
+        if (File.Exists(filePath))
         {
-            return cache[steamId].DecodeBodyLogColorData();
+            var json = File.ReadAllText(filePath);
+            var userBodyLogColorData = JsonConvert.DeserializeObject<FusionUserBodyLogColorData>(json);
+            return userBodyLogColorData.DecodeBodyLogColorData();
         }
         return null;
     }
-        
+
     public static void ApplyCacheToDevice(PullCordDevice device)
     {
         foreach (var playerRep in PlayerRepManager.PlayerReps)
@@ -67,8 +40,38 @@ public static class FusionUserCacheManager
             {
                 continue;
             }
-            
+
             device.ApplyColorsFromData(colorData);
+            
+#if DEBUG
+            MelonLogger.Msg($"Applied cache to {steamId}");
+#endif
+        }
+    }
+    
+    public static void LoadCache()
+    {
+        if (!Directory.Exists(cacheDirectoryPath))
+        {
+            Directory.CreateDirectory(cacheDirectoryPath);
+        }
+
+        var currentAssemblyHash = MelonUtils.ComputeSimpleSHA256Hash(Assembly.GetExecutingAssembly().Location);
+        if (MelonPreferences.GetEntryValue<string>("BodyLogCustomizer", "AssemblyHash") != currentAssemblyHash)
+        {
+            foreach (var file in Directory.GetFiles(cacheDirectoryPath))
+            {
+                File.Delete(file);
+            }
+            MelonPreferences.SetEntryValue("BodyLogCustomizer", "AssemblyHash", currentAssemblyHash);
+        }
+
+        foreach (var file in Directory.GetFiles(cacheDirectoryPath))
+        {
+            var json = File.ReadAllText(file);
+            var userBodyLogColorData = JsonConvert.DeserializeObject<FusionUserBodyLogColorData>(json);
+            var steamId = Path.GetFileNameWithoutExtension(file);
+            AddOrUpdate(steamId, userBodyLogColorData.DecodeBodyLogColorData());
         }
     }
 }
