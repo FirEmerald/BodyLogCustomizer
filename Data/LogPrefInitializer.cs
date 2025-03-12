@@ -32,7 +32,7 @@ namespace BodyLogCustomizer.Data
                 }
                 else
                 {
-                    System.IO.File.Move(combinedPrefsFile, combinedPrefsFile+"_"+hash);
+                    System.IO.File.Move(combinedPrefsFile, combinedPrefsFile+"_"+hash, overwrite: true);
 #if DEBUG
                     System.IO.File.Delete(combinedPrefsFile + "_" + BodyLogCustomizer.AssemblyHash.Value);
 #endif
