@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Timers;
 using BodyLogCustomizer.Utilities;
+using Il2CppSLZ.Bonelab;
 using LabFusion.Data;
+using LabFusion.Entities;
 using LabFusion.Network;
-using LabFusion.Representation;
-using MelonLoader;
+using LabFusion.Player;
+using LabFusion.SDK.Modules;
 using UnityEngine;
 using static BodyLogCustomizer.Data.BodyLogColorData;
 
@@ -128,7 +130,7 @@ namespace BodyLogCustomizer.Data.Messages
                         data.BaseSkinTypeId
                     );
 
-                #if DEBUG
+#if DEBUG
                     MelonLogger.Msg($"Player with id {data.PlayerId} sent color data:");
                     MelonLogger.Msg($"Base Skin Type id: {data.BaseSkinTypeId}");
                     MelonLogger.Msg($"Gizmo Ball Color: {data.GizmoColor.gizmoBallColor.ToString()}");
@@ -142,23 +144,19 @@ namespace BodyLogCustomizer.Data.Messages
                     MelonLogger.Msg($"Dial Color Emission Color: {data.DialColor[0].emissionColor.ToString()}");
                     MelonLogger.Msg($"Preview Mesh Edge Color: {data.PreviewMeshColor.hologramEdgeColor.ToString()}");
                     MelonLogger.Msg($"Preview Mesh Emission Color: {data.PreviewMeshColor.hologramEmissionColor.ToString()}");
-                #endif
-
-                    foreach (var playerRep in PlayerRepManager.PlayerReps)
+#endif
+                    if (NetworkPlayerManager.TryGetPlayer(data.PlayerId, out var player))
                     {
-                        if (playerRep.PlayerId.SmallId == data.PlayerId)
+                        // Bullshit solution but it works
+                        var timer = new Timer(1000);
+                        timer.AutoReset = false;
+                        timer.Start();
+                        timer.Elapsed += (sender, args) =>
                         {
-                            // Bullshit solution but it works
-                            var timer = new Timer(1000);
-                            timer.AutoReset = false;
-                            timer.Start();
-                            timer.Elapsed += (sender, args) =>
-                            {
-                                var device = playerRep.pullCord;
-                                device.ApplyColorsFromData(bodyLogColorData);
-                                FusionUserCacheManager.AddOrUpdate(playerRep.PlayerId.LongId.ToString(), bodyLogColorData);
-                            };
-                        }
+                            var device = player.RigRefs.RigManager.GetComponentInChildren<PullCordDevice>(includeInactive: true);
+                            device.ApplyColorsFromData(bodyLogColorData);
+                            FusionUserCacheManager.AddOrUpdate(player.PlayerId.LongId.ToString(), bodyLogColorData);
+                        };
                     }
                 }
             }

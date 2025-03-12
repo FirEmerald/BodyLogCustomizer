@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BodyLogCustomizer.Data;
+using Il2CppSLZ.Bonelab;
 using LabFusion.Extensions;
 using MelonLoader;
-using SLZ.Props;
 using UnityEngine;
 
 namespace BodyLogCustomizer.Utilities

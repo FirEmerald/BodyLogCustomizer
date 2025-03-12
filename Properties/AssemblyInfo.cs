@@ -1,7 +1,6 @@
 ﻿using System.Resources;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using BodyLogCustomizer;
 using MelonLoader;
 
 [assembly: AssemblyTitle(BodyLogCustomizer.BuildInfo.Name)]
@@ -18,7 +17,6 @@ using MelonLoader;
 [assembly: AssemblyFileVersion(BodyLogCustomizer.BuildInfo.Version)]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: MelonInfo(typeof(BodyLogCustomizer.BodyLogCustomizer), BodyLogCustomizer.BuildInfo.Name, BodyLogCustomizer.BuildInfo.Version, BodyLogCustomizer.BuildInfo.Author, BodyLogCustomizer.BuildInfo.DownloadLink)]
-[assembly: LabFusion.SDK.Modules.ModuleInfo(typeof(FusionModule), ModuleInfo.Name, ModuleInfo.Version, ModuleInfo.Author, ModuleInfo.Abbreviation, ModuleInfo.AutoRegister, ModuleInfo.Color)]
 
 
 // Create and Setup a MelonModGame to mark a Mod as Universal or Compatible with specific Games.

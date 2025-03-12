@@ -3,28 +3,29 @@ using BodyLogCustomizer.Data;
 using BodyLogCustomizer.Data.Messages;
 using LabFusion.Network;
 using LabFusion.SDK.Modules;
-using MelonLoader;
-using UnityEngine;
 
 namespace BodyLogCustomizer;
-
-public static class ModuleInfo
-{
-    public const string Name = "BodyLogCustomizer"; 
-    public const string Version = "1.1.0"; 
-    public const string Author = "BuggedChecker"; 
-    public const string Abbreviation = null; 
-    public const bool AutoRegister = true; 
-    public const ConsoleColor Color = ConsoleColor.Cyan;
-}
 
 public class FusionModule : Module
 {
     public static FusionModule Instance { get; private set; }
-        
-    public override void OnModuleLoaded()
+
+    public override string Name => "BodyLogCustomizer";
+
+    public override string Author => "BuggedChecker";
+
+    public override Version Version => new(1, 1, 0);
+
+    public override ConsoleColor Color => ConsoleColor.Cyan;
+
+    protected override void OnModuleRegistered()
     {
         Instance = this;
+    }
+
+    protected override void OnModuleUnregistered()
+    {
+        Instance = null;
     }
 
     public void SendBodyLogColorData(BodyLogColorData bodyLogColorData)

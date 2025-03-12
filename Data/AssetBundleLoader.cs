@@ -30,7 +30,7 @@ namespace BodyLogCustomizer.Data
         internal static void LoadAssets()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            AssetBundle resourceBundle = HelperMethods.LoadEmbeddedAssetBundle(assembly, HelperMethods.IsAndroid() ? "$safeprojectname$.Resources.Android.bodylogskins.bundle" : "$safeprojectname$.Resources.Windows.bodylogskins.bundle");
+            AssetBundle resourceBundle = HelperMethods.LoadEmbeddedAssetBundle(assembly, HelperMethods.IsAndroid() ? "BodyLogCustomizer.Resources.Android.bodylogskins.bundle" : "BodyLogCustomizer.Resources.Windows.bodylogskins.bundle");
 
             if (resourceBundle == null)
             {

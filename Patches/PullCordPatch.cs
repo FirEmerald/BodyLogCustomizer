@@ -1,12 +1,9 @@
 ﻿using HarmonyLib;
-using MelonLoader;
-using SLZ.Props;
-using SLZ.Rig;
-using UnityEngine;
 using BodyLogCustomizer.Utilities;
 using BodyLogCustomizer.Data;
 using LabFusion.Extensions;
 using LabFusion.Network;
+using Il2CppSLZ.Bonelab;
 
 namespace BodyLogCustomizer.Patches
 {

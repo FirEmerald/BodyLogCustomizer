@@ -2,10 +2,12 @@
 using System.Reflection;
 using BodyLogCustomizer.Data;
 using BodyLogCustomizer.Utilities;
+using BoneLib;
+using Il2CppSLZ.Bonelab;
+using LabFusion.Entities;
 using LabFusion.Representation;
 using MelonLoader;
 using Newtonsoft.Json;
-using SLZ.Props;
 
 public static class FusionUserCacheManager
 {
@@ -30,25 +32,20 @@ public static class FusionUserCacheManager
         return null;
     }
 
-    public static void ApplyCacheToDevice(PullCordDevice device)
+    public static void ApplyCacheToDevice(NetworkPlayer player, PullCordDevice device)
     {
-        foreach (var playerRep in PlayerRepManager.PlayerReps)
+        var steamId = player.PlayerId.LongId.ToString();
+        var colorData = GetBodyLogColorData(steamId);
+        if (colorData != null)
         {
-            var steamId = playerRep.PlayerId.LongId.ToString();
-            var colorData = GetBodyLogColorData(steamId);
-            if (colorData == null)
-            {
-                continue;
-            }
-
             device.ApplyColorsFromData(colorData);
-            
 #if DEBUG
             MelonLogger.Msg($"Applied cache to {steamId}");
 #endif
         }
+
     }
-    
+
     public static void LoadCache()
     {
         if (!Directory.Exists(cacheDirectoryPath))

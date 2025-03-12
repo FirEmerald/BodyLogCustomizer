@@ -1,19 +1,18 @@
 ﻿using MelonLoader;
-using UnityEngine;
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Timers;
-using BoneLib.BoneMenu.Elements;
-using BoneLib.BoneMenu;
 using BodyLogCustomizer.Data;
 using BodyLogCustomizer.UI;
 using BoneLib;
-using LabFusion.SDK.Modules;
-using SLZ.Rig;
-using LabFusion.Utilities;
-using Il2CppSystem;
+using LabFusion.Entities;
+using LabFusion.Player;
+using Il2CppSLZ.Marrow;
 using LabFusion.Representation;
+using Il2CppSLZ.Bonelab;
+using System;
+using Il2CppSLZ.VRMK;
+using LabFusion.Data;
+using LabFusion.Network;
+using UnityEngine;
 
 namespace BodyLogCustomizer
 {
@@ -39,7 +38,7 @@ namespace BodyLogCustomizer
         public override void OnInitializeMelon()
         {
             // Check if Fusion is installed
-            HasFusion = HelperMethods.CheckIfAssemblyLoaded("labfusion");
+            HasFusion = HelperMethods.CheckIfAssemblyLoaded("LabFusion");
             
             // Preferences
             BodyLogPrefs = MelonPreferences.CreateCategory("BodyLogCustomizer", "BodyLog Customizer");
@@ -60,27 +59,30 @@ namespace BodyLogCustomizer
 
             if (HasFusion)
             {
-                // Load Module
-                ModuleHandler.LoadModule(Assembly.GetExecutingAssembly());
-
-                // Hooks
-                MultiplayerHooking.OnPlayerRepCreated += OnPlayerRepCreated;
+                LoadModule();
             }
 
             // Load Assets
             AssetBundleLoader.LoadAssets();
         }
-        private void OnPlayerRepCreated(RigManager rm)
+        private void LoadModule()
+        {
+            // Load Module
+            LabFusion.SDK.Modules.ModuleManager.RegisterModule<FusionModule>();
+
+            // Hooks
+            NetworkPlayer.OnNetworkRigCreated += OnPlayerRepCreated;
+        }
+
+        private void OnPlayerRepCreated(NetworkPlayer player, RigManager rm)
         {
             var timer = new Timer(1000);
             timer.AutoReset = false;
             timer.Start();
             timer.Elapsed += (sender, args) =>
             {
-                var playerRep = PlayerRepManager.TryGetPlayerRep(rm, out var rep);
-            
                 FusionUserCacheManager.LoadCache();
-                FusionUserCacheManager.ApplyCacheToDevice(rep.pullCord);
+                FusionUserCacheManager.ApplyCacheToDevice(player, rm.physicsRig.GetComponentInChildren<PullCordDevice>(includeInactive: true));
             
                 FusionModule.Instance.SendBodyLogColorData(LogPrefInitializer.bodyLogColorData);
             };
